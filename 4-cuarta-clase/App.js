@@ -7,85 +7,92 @@ import {
   Text,
   FlatList,
   Modal,
-  Pressable
+  Pressable,
 } from "react-native";
 
 export default function App() {
   const [itemText, setItemText] = useState("");
   const [items, setItems] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const onChangeText = (text) => {
     setItemText(text);
   };
 
-  const addItem = () => {
+  const addItemToState = () => {
     setItems((oldArry) => [...oldArry, { id: Date.now(), value: itemText }]);
     setItemText("");
   };
 
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
+  const openModal = (item) => {
+    setSelectedItem(item);
+    setModalVisible(true);
+  };
 
-  const removeItem = (id) => {      
+  const onCancelModal = () => {
+    setModalVisible(!modalVisible);
+  };
+
+  const onDeleteModal = (id) => {
     setModalVisible(!modalVisible);
     setItems((oldArry) => oldArry.filter((item) => item.id !== id));
     setSelectedItem(null);
   };
 
-  const selectItem = (item) => {
-    setSelectedItem(item);
-    setModalVisible(true);
-  };
-
   return (
     <View style={styles.screen}>
-      <View style={styles.inputContainer}>
+      <View style={styles.addItemInputContainer}>
         <TextInput
           placeholder="Item de lista"
           style={styles.input}
           onChangeText={onChangeText}
           value={itemText}
         />
-        <Button title="Agregar" onPress={addItem} />
+        <Button title="Agregar" onPress={addItemToState} />
       </View>
       <FlatList
         data={items}
         renderItem={(itemData) => (
-          <Pressable style={styles.contentList} onPress={()=>{
-            selectItem(itemData.item)
-          }}>
+          <Pressable
+            style={styles.itemContainer}
+            onPress={() => {
+              openModal(itemData.item);
+            }}
+          >
             <Text style={styles.item}>{itemData.item.value}</Text>
           </Pressable>
         )}
         keyExtractor={(item) => item.id.toString()}
       />
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        >
-          <View style={styles.modalContainer}>
-            <View styles={styles.modalTitle}>
-              <Text style={{
-                textAlign: 'center',
-                fontSize: 20,
-                fontWeight: 'bold',
-              }}>Eliminar Item</Text>
+
+      <Modal animationType="slide" transparent={true} visible={modalVisible}>
+        <View style={styles.modalMainView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalTitle}>Eliminar Item</Text>
+            <Text style={styles.modalText}>
+              ¿Está seguro que desea eliminar el item{" "}
+              <Text style={styles.modalBoldText}>{selectedItem?.value}</Text>?
+            </Text>
+            <View style={styles.modalActions}>
+              <Pressable
+                style={[styles.button, styles.buttonCancel]}
+                onPress={onCancelModal}
+              >
+                <Text style={styles.textStyle}>Cancelar</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.button, styles.buttonDelete]}
+                onPress={() => {
+                  onDeleteModal(selectedItem.id);
+                }}
+              >
+                <Text style={styles.textStyle}>Eliminar</Text>
+              </Pressable>
             </View>
-            <View styles={styles.modalContent}>
-              <Text>¿Está seguro que desea eliminar el item {selectedItem?.value}?</Text>
-              </View>
-              <View styles={styles.modalActions}>
-                <Button title="Cancelar" onPress={()=>{
-                  setModalVisible(false)
-                  setSelectedItem(null);
-                }}/>
-                <Button title="Eliminar" onPress={()=>{
-                  removeItem(selectedItem.id)
-                }}/>
-              </View>
           </View>
-        </Modal>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -93,8 +100,9 @@ export default function App() {
 const styles = StyleSheet.create({
   screen: {
     padding: 30,
+    flex: 1,
   },
-  inputContainer: {
+  addItemInputContainer: {
     marginTop: 30,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -106,36 +114,63 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   itemContainer: {
-    marginTop: 30,
-    flex: 1,
-  },
-  item: {
-    padding: 10,
-    textAlign: "center",
-
-  },
-  contentList: {
+    margin: 10,
     padding: 10,
     borderRadius: 5,
     backgroundColor: "#ccc",
   },
-  modalContainer: {
-    height: 400,
-    width: 300,
-    marginTop: 100,
-    alignSelf:'center',
-    backgroundColor: 'lime',
+  item: {
+    padding: 10,
+    textAlign: "center",
+  },
+  modalMainView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
   modalTitle: {
     padding: 10,
     borderRadius: 5,
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
   },
-  modalContent: {
-    padding: 10,
-    width:'50%',
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  modalBoldText: {
+    fontWeight: "bold",
+    textDecorationLine: "underline",
   },
   modalActions: {
-    flexDirection:'row',
-    justifyContent:'space-around',
-  }
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    marginHorizontal: 10,
+  },
+  buttonCancel: {
+    backgroundColor: "#2196F3",
+  },
+  buttonDelete: {
+    backgroundColor: "#f44336",
+  },
 });
