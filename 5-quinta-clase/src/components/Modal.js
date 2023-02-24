@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable } from "react-native";
+import { StyleSheet, Text, View, Modal as RNmodal } from "react-native";
 import React from "react";
 import Button from "./Button";
 
@@ -9,7 +9,7 @@ const Modal = ({
   onDeleteModal,
 }) => {
   return (
-    <Modal animationType="slide" transparent={true} visible={modalVisible}>
+    <RNmodal animationType="slide" transparent={true} visible={modalVisible}>
       <View style={styles.modalMainView}>
         <View style={styles.modalView}>
           <Text style={styles.modalTitle}>Eliminar Item</Text>
@@ -33,7 +33,7 @@ const Modal = ({
           </View>
         </View>
       </View>
-    </Modal>
+    </RNmodal>
   );
 };
 
