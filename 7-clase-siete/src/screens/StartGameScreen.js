@@ -4,6 +4,7 @@ import Card from '../components/Card'
 import COLORS from '../constants/Colors'
 import Input from '../components/Input'
 import NumberContainer from '../components/NumberContainer'
+import { titleStyle } from '../constants/TextStyles'
 
 
 const StartGameScreen = ({ onStartGame }) => {
@@ -80,8 +81,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   title: {
-    fontSize: 20,
-    marginVertical: 10
+    ...titleStyle,
   },
   inputContainer: {
     width: 300,
