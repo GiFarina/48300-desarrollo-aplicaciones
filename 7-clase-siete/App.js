@@ -18,13 +18,12 @@ export default function App() {
     'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf'),
   });
 
-
-  const onLayoutRootView = React.useCallback(async () => {
+  React.useEffect(() =>{
     if (fontsLoaded) {
-      await SplashScreen.hideAsync();
+      SplashScreen.hideAsync();
     }
-  }, [fontsLoaded]);
 
+  }, [fontsLoaded])
 
   const [userNumber, setUserNumber] = React.useState();
 
@@ -36,7 +35,7 @@ export default function App() {
     return null;
   }
   return (
-    <View style={styles.container} onLayout={onLayoutRootView}>
+    <View style={styles.container}>
       <Header title="Adivina el numero" />
       {
         !userNumber
