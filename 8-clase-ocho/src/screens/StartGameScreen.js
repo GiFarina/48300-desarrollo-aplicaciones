@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button, TouchableWithoutFeedback, Keyboard } from 'react-native'
+import { StyleSheet, Text, View, Button, TouchableWithoutFeedback, Keyboard, Dimensions } from 'react-native'
 import React from 'react'
 import Card from '../components/Card'
 import COLORS from '../constants/Colors'
@@ -82,10 +82,12 @@ const styles = StyleSheet.create({
   },
   title: {
     ...titleStyle,
+    marginTop: Dimensions.get('window').height > 600 ? 200 : 10,
   },
   inputContainer: {
-    width: 300,
-    maxWidth: '80%',
+    minWidth: 300,
+    width: '90%',
+    maxWidth: 320,
     padding: 20,
     alignItems: 'center'
   },
@@ -103,7 +105,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15
   },
   button: {
-    width: 100
+    width: Dimensions.get('window').width / 4
   },
   selectedNumberContainer:{
     marginTop: 20,
