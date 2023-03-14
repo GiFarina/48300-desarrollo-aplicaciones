@@ -8,19 +8,19 @@ const CategoriesScreen = ({ navigation }) => {
     const onSelectGridItem = (item) => {
         navigation.navigate('Products', {
             categoryId: item.id,
-            categoriName: item.title
+            categoryName: item.title
         })
     }
 
-    const renderGridItem = ({item}) => (<GridItem item={item} onSelect={onSelectGridItem} />)
+    const renderGridItem = ({ item }) => <GridItem item={item} onSelect={onSelectGridItem} />
 
 
     return (
         <FlatList
-        data={CATEGORIES}
-        keyExtractor={(item) => item.id}
-        renderItem={renderGridItem}
-        numColumns={2}
+            data={CATEGORIES}
+            keyExtractor={(item) => item.id}
+            renderItem={renderGridItem}
+            numColumns={2}
         />
     )
 }
