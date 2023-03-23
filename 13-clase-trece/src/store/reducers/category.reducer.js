@@ -12,7 +12,6 @@ const CategoryReducer = (state = initialState, action) => {
             const indexCategory = state.categories.findIndex(cat=>cat.id===action.categoryId)
             if (indexCategory === -1) return state;
             const newState = {...state, selected:state.categories[indexCategory]}
-            //console.log(newState)
             return newState
         default:
             return state
