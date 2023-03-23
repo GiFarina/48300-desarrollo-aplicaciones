@@ -8,6 +8,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import ShopNavigator from './ShopNavigator'
 import CartNavigator from './CartNavigator'
+import OrderScreen from '../screens/OrderScreen';
 
 
 const BottomTabs = createBottomTabNavigator()
@@ -15,6 +16,7 @@ const BottomTabs = createBottomTabNavigator()
 const TabsNavigator = () => {
   return (
     <BottomTabs.Navigator
+      initialRouteName="Shop-tab"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
@@ -42,6 +44,16 @@ const TabsNavigator = () => {
           )
         }}
       />
+      <BottomTabs.Screen name="Orders-tab" component={OrderScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View style={styles.tabBarIcon}>
+              <Ionicons name="md-list" size={24} color={focused ? '#7F5DF0' : '#748C94'} />
+              <Text style={{ color: focused ? '#7F5DF0' : '#748C94' }}>Orders</Text>
+            </View>
+          )
+        }}
+      />
     </BottomTabs.Navigator>
   )
 }
@@ -63,7 +75,7 @@ const styles = StyleSheet.create({
     left: 20,
     right: 20,
     borderRadius: 15,
-    height: 90
+    height: 90,
   },
   tabBarIcon: {
     flex: 1,
