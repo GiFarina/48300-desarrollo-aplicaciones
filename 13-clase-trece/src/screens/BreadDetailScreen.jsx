@@ -1,18 +1,27 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Button, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 //import { BREADS } from '../data/products'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
-const BreadDetailScreen = ({route}) => {
-    //const productId=route.params.productId
-    //const bread = BREADS.find(product => product.id === productId);
+import { addItem } from '../store/actions/cart.action'
+
+const BreadDetailScreen = () => {
     const bread = useSelector(state=>state.breads.selected)
+    const dispatch = useDispatch();
+
+    const onHandleAddToCart = ()=>{
+        console.log('ADD TO CART', bread);
+        dispatch(addItem({...bread, quantity:1}))
+    }
     return (
         <View style={styles.container}>
             <Text style={styles.title}>{bread.name}</Text>
             <Text>{bread.description}</Text>
             <Text>$ {bread.price}</Text>
             <Text>{bread.weight}</Text>
+            <Button title='Agregar Item' onPress={() => {
+                onHandleAddToCart()
+            }}/>
         </View>
     )
 }
