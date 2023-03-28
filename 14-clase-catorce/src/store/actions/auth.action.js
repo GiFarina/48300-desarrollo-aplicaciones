@@ -19,6 +19,10 @@ export const signUp = (email, password) => {
                 }),
             });
 
+            if(!response.ok) {
+                throw new Error('Something went wrong!');
+            }
+
             const data = await response.json();
 
             console.log(data);
@@ -29,7 +33,10 @@ export const signUp = (email, password) => {
                 userId: data.localId
             })
         } catch (error) {
-            console.error(error)
+            dispatch({
+                type: "SIGN_UP_FAIL"
+            })
+            alert(error);
         }
     }
 
