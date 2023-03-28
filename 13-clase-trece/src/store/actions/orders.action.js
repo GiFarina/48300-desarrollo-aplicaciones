@@ -6,7 +6,7 @@ export const DELETE_ORDER = 'DELETE_ORDER';
 export const getOrders = () => {
     return async dispatch => {
         try {
-            const response = await fetch(`${API_URL}/ordenes.json`,{
+            const response = await fetch(`${API_URL}/orders.json`,{
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ export const getOrders = () => {
 export const deleteOrder = (id) => {
     return async dispatch => {
         try {
-            const response = await fetch(`${API_URL}/ordenes/${id}.json`, {
+            const response = await fetch(`${API_URL}/orders/${id}.json`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
