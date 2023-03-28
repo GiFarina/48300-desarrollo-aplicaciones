@@ -3,34 +3,98 @@ import React from 'react'
 import colors from '../constants/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import { signUp } from '../store/actions/auth.action'
+import Input from '../components/Input'
+
+const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
+
+const formReducer = (state, action) => {
+    if (action.type === FORM_INPUT_UPDATE) {
+        const inputValues = {
+            ...state.inputValues,
+            [action.input]: action.value
+        }
+        const inputValidities = {
+            ...state.inputValidities,
+            [action.input]: action.isValid
+        }
+        let formIsValid = true;
+        for (const key in inputValidities) {
+            formIsValid = formIsValid && inputValidities[key];
+        }
+        return {
+            formIsValid,
+            inputValidities,
+            inputValues
+        }
+    }
+    return state;
+}
+
 
 const RegisterScreen = () => {
-
     const dispatch = useDispatch();
     const isAuthLoading = useSelector(state => state.auth.isLoading);
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
+
+    const [formState, dispatchFormState] = React.useReducer(formReducer, {
+        inputValues: {
+            email: '',
+            password: ''
+        },
+        inputValidities: {
+            email: false,
+            password: false
+        },
+        formIsValid: false
+    });
+
 
     const onHandleRegister = () => {
-        dispatch(signUp(email, password))
+        if (!formState.formIsValid) {
+            dispatch(signUp(email, password))
+        } else {
+            alert('Por favor, ingrese un email y una contraseña válidos')
+        }
     }
+
+    const handleChangedText = React.useCallback((inputIdentifier, inputValue, inputValidity) => {
+        dispatchFormState({
+            type: FORM_INPUT_UPDATE,
+            value: inputValue,
+            isValid: inputValidity,
+            input: inputIdentifier
+        })
+    }, [dispatchFormState])
 
     return (
         <KeyboardAvoidingView style={styles.screen} behavior="padding">
             <View style={styles.container}>
                 <Text style={styles.title}>REGISTRO</Text>
                 <View style={styles.form}>
-                    <Text style={styles.label}>Email</Text>
-                    <TextInput style={styles.textInput}
-                        autoCapitalize="none"
-                        keyboardType='email-address'
-                        onChangeText={setEmail}
-                    />
-                    <Text style={styles.label}>Password</Text>
-                    <TextInput style={styles.textInput}
-                        onChangeText={setPassword}
-                        secureTextEntry
+                    <Input
+                        initialValue={formState.inputValues.email}
+                        initiallyValid={formState.inputValidities.email}
+                        onInputChange={handleChangedText}
+                        id='email'
+                        required
+                        email
+                        minLength={5}
+                        label='Email'
+                        errorText='Por favor, ingrese un email válido'
                         autoCapitalize='none'
+                        keyboardType='email-address'
+                    />
+                    <Input
+                        initialValue={formState.inputValues.email}
+                        initiallyValid={formState.inputValidities.email}
+                        onInputChange={handleChangedText}
+                        id='password'
+                        required
+                        minLength={5}
+                        label='Password'
+                        errorText='Por favor, ingrese un password válido'
+                        autoCapitalize='none'
+                        keyboardType='email-address'
+                        secureTextEntry
                     />
                     <TouchableOpacity style={styles.loginButton} onPress={onHandleRegister}>
                         <Text style={styles.loginButtonText}>{isAuthLoading ? 'Loading...' : 'Registrarse'}</Text>
@@ -94,7 +158,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         height: 40,
         backgroundColor: colors.primary,
-        marginBottom: 12,
+        marginVertical: 12,
     },
     loginButtonText: {
         fontSize: 18,
