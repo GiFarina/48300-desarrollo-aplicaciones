@@ -3,10 +3,13 @@ import { View, Text, StyleSheet, ScrollView, TextInput, Button } from 'react-nat
 import { COLORS } from '../constants'
 import { useDispatch } from 'react-redux'
 import { addPlace } from '../store/places.actions'
+import ImageSelector from '../components/ImageSelector'
+
 
 const NewPlaceScreen = ({ navigation }) => {
     const dispatch = useDispatch()
     const [titleValue, setTitleValue] = React.useState('')
+    const [imageValue, setImageValue] = React.useState('')
 
     const titleChangeHandler = text => {
         setTitleValue(text)
@@ -14,17 +17,23 @@ const NewPlaceScreen = ({ navigation }) => {
 
 
     const savePlaceHandler = () => {
-        dispatch(addPlace(titleValue))
+        dispatch(addPlace(titleValue,imageValue))
         navigation.navigate('Direcciones')
     }
+
+
+
+
 
     return (
         <ScrollView>
             <View style={styles.container}>
                 <Text style={styles.label}>Titulo</Text>
                 <TextInput style={styles.input} onChangeText={titleChangeHandler}/>
+                <ImageSelector onImage={image=>setImageValue(image)} />
                 <Button title="Guardar" color={COLORS.MAROON} onPress={savePlaceHandler} />
             </View>
+           
         </ScrollView>
     )
 }
