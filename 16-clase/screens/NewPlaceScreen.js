@@ -4,6 +4,7 @@ import { COLORS } from '../constants'
 import { useDispatch } from 'react-redux'
 import { addPlace } from '../store/places.actions'
 import ImageSelector from '../components/ImageSelector'
+import LocationService from '../components/LocationService'
 
 
 const NewPlaceScreen = ({ navigation }) => {
@@ -31,6 +32,7 @@ const NewPlaceScreen = ({ navigation }) => {
                 <Text style={styles.label}>Titulo</Text>
                 <TextInput style={styles.input} onChangeText={titleChangeHandler}/>
                 <ImageSelector onImage={image=>setImageValue(image)} />
+                <LocationService onLocation={(lat, lng)=>console.log(lat, lng)}/>
                 <Button title="Guardar" color={COLORS.MAROON} onPress={savePlaceHandler} />
             </View>
            
