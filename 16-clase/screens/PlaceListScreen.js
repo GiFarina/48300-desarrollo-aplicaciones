@@ -5,12 +5,12 @@ import PlaceItem from '../components/PlaceItem'
 
 const PlaceListScreen = ({navigation}) => {
     const places = useSelector(state=>state.places.places)
-    console.log(places)
+
     const renderPlaceItem = (data) => (
         <PlaceItem  
             title={data.item.title}
             image={data.item.image}
-            address="Calle falsa 123"
+            address={data.item.address}
             onSelect={()=>navigation.navigate("Detalle")}
         />
     )
