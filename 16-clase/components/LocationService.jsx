@@ -2,15 +2,16 @@ import { Button, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import Colors from '../constants/Colors'
 import * as Location from 'expo-location'
+import MapPreview from './MapPreview'
 
-const LocationService = ({onLocation}) => {
+const LocationService = ({ onLocation }) => {
 
   const [location, setLocation] = React.useState(null)
 
   const handleGeolocation = async () => {
     const hasPermission = await verifyGeolocationPermission()
     if (!hasPermission) return
-    
+
     const location = await Location.getCurrentPositionAsync({
       timeout: 5000,
     })
@@ -34,14 +35,10 @@ const LocationService = ({onLocation}) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.preview}>
-        {location ? (
-          <Text> {location.lat} , {location.lng}</Text>
-        ) : (
-          <Text> Esperando ubicación... </Text>
-        )}
-      </View>
-      <Button title='Obtener Location'  color={Colors.PEACH_PUFF} onPress={handleGeolocation}/>
+      <MapPreview mapStyle={styles.preview} location={location} >
+        <Text> Esperando ubicación... </Text>
+      </MapPreview>
+      <Button title='Obtener Location' color={Colors.PEACH_PUFF} onPress={handleGeolocation} />
     </View>
   )
 }
@@ -49,20 +46,20 @@ const LocationService = ({onLocation}) => {
 export default LocationService
 
 const styles = StyleSheet.create({
-    container: {
-        marginBottom:10
-    },
-    preview:{
-        width: '100%',
-        height: 200,
-        marginBottom:10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderColor: Colors.BLUSH,
-        borderWidth: 1
-    },
-    image: {
-        width: '100%',
-        height: '100%'
-    }
+  container: {
+    marginBottom: 10
+  },
+  preview: {
+    width: '100%',
+    height: 200,
+    marginBottom: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: Colors.BLUSH,
+    borderWidth: 1
+  },
+  image: {
+    width: '100%',
+    height: '100%'
+  }
 })
