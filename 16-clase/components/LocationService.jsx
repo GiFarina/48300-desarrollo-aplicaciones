@@ -3,8 +3,21 @@ import React from 'react'
 import Colors from '../constants/Colors'
 import * as Location from 'expo-location'
 import MapPreview from './MapPreview'
+import { useNavigation, useRoute } from '@react-navigation/native'
 
 const LocationService = ({ onLocation }) => {
+
+  const navigation = useNavigation()
+  const route = useRoute()
+
+  const mapLocation = route.params?.mapLocation;
+
+  React.useEffect(() => {
+    if (mapLocation) {
+      setLocation(mapLocation)
+      onLocation(mapLocation.lat, mapLocation.lng)
+    }
+  }, [mapLocation])
 
   const [location, setLocation] = React.useState(null)
 
@@ -24,6 +37,13 @@ const LocationService = ({ onLocation }) => {
 
   }
 
+  const handlePickOnMap = async() => {
+    const hasPermission = await verifyGeolocationPermission()
+    if (!hasPermission) return
+
+    navigation.navigate('Map')
+  }
+
   const verifyGeolocationPermission = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync()
     if (status !== 'granted') {
@@ -38,7 +58,10 @@ const LocationService = ({ onLocation }) => {
       <MapPreview mapStyle={styles.preview} location={location} >
         <Text> Esperando ubicación... </Text>
       </MapPreview>
+      <View style={styles.actions}>
       <Button title='Obtener Location' color={Colors.PEACH_PUFF} onPress={handleGeolocation} />
+      <Button title='Elegir del mapa' color={Colors.LIGTH_PINK} onPress={handlePickOnMap} />
+      </View>
     </View>
   )
 }
@@ -61,5 +84,9 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%'
+  },
+  actions: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   }
 })

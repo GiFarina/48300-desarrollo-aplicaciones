@@ -17,15 +17,10 @@ const NewPlaceScreen = ({ navigation }) => {
         setTitleValue(text)
     }
 
-
     const savePlaceHandler = () => {
         dispatch(addPlace(titleValue,imageValue, locationValue))
         navigation.navigate('Direcciones')
     }
-
-
-
-
 
     return (
         <ScrollView>

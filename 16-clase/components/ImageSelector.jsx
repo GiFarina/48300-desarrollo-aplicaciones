@@ -23,10 +23,10 @@ const ImageSelector = ({onImage}) => {
         const isCameraOk = await VerifyPermissions()
         if (!isCameraOk) return
         
-        const image = await ImagePicker.launchCameraAsync({
-            allowsEditing: true, 
-            aspect: [16,9],
-            quality: 0.8,
+        const image = await ImagePicker.launchImageLibraryAsync({
+            allowsEditing: true,
+            aspect: [16, 9],
+            quality: 0.5
         })
         console.log(image.assets)
         setPickedUri(image.assets[0].uri)
