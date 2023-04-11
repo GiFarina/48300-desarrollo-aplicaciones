@@ -12,9 +12,8 @@ const PlaceDetailScreen = ({ route }) => {
     return (
         <View style={styles.container}>
             <Text>{selectedPlace.address}</Text>
-            <Text>{selectedPlace.coords.lat} , {selectedPlace.coords.lng}</Text>
+            <Text>{selectedPlace.lat} , {selectedPlace.lng}</Text>
             <Text>{selectedPlace.title}</Text>
-
         </View>
     )
 }
