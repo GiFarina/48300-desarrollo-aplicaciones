@@ -12,5 +12,3 @@ web-build/
 # macOS
 .DS_Store
 
-# Keys
-keys.js

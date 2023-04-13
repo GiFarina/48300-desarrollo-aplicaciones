@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "17-clase-b",
-    "slug": "17-clase-b",
+    "name": "Direcciones",
+    "slug": "direcciones",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -23,10 +23,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.gifarina.direcciones"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "5ac7a0f9-49f3-4b26-bab8-ca697f1566a1"
+      }
     }
   }
 }

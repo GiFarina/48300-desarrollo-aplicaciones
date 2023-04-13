@@ -1,0 +1,3 @@
+const STATIC_MAP_API_KEY = 'AIzaSyDSBGwbwkqNPqHSPQlGi4HT5PIfmESfEVg';
+
+export default STATIC_MAP_API_KEY;
