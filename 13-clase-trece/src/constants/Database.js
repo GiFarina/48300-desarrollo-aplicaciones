@@ -1,1 +1,1 @@
-export const API_URL = 'https://bakeyapp-75807-default-rtdb.firebaseio.com/';
+export const API_URL = '';
